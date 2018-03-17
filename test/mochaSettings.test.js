@@ -7,11 +7,9 @@ describe('Mocha Settings', function () {
   should.equal(this.retries(), -1);
   should.equal(this.slow(), 1234);
   should.equal(this.timeout(), 2345);
-  process.env['mocha-isolation-pid-test'] = process.env['mocha-isolation-pid-test'] || process.pid;
 
   it('will assert settings', function (done) {
     // console.log("before");
-    should.notEqual(process.env['mocha-isolation-pid-test'], process.pid);
     should.equal(this.test.title, 'will assert settings');
     should(this.retries).be.a.Function();
     should(this.slow).be.a.Function();

@@ -40,7 +40,7 @@
     "test": "npm run eslint && npm run mocha && npm run mocha-isolation",
     "eslint": "./node_modules/.bin/eslint ./src/",
     "mocha": "./node_modules/.bin/mocha test/**/*.test.?s",
-    "mocha-isolation": "./node_modules/.bin/mocha --require ./register test/**/*.test.?s",
+    "mocha-isolation": "./node_modules/.bin/mocha --require ./register test/**/*.test.?s test/**/*.test-isolated.?s",
     "npm-push": "npm test && npm version patch && npm publish -tag latest --access public && git push"
   }
 }

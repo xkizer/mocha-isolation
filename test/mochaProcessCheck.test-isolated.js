@@ -1,6 +1,6 @@
 require('mocha');
 const should = require('should');
-
+/* eslint no-console: 0 */
 describe('Test Process', function () {
   // This will capture as the test is first evaluated in parent process, the child will
   // not replace the value. 
