@@ -1,0 +1,21 @@
+{
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
+  "plugins": ["node"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:node/recommended"
+  ],
+  "rules": {
+    "quotes": 0,
+    "no-underscore-dangle": 0,
+    "node/no-extraneous-require": 0,
+    "node/no-unsupported-features": 0,
+    "node/exports-style": [ "error", "module.exports" ]
+  }
+}
