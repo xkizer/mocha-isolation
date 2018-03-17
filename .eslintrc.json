@@ -6,7 +6,9 @@
   "parserOptions": {
     "ecmaVersion": 6
   },
-  "plugins": ["node"],
+  "plugins": [
+    "node"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:node/recommended"
@@ -16,6 +18,17 @@
     "no-underscore-dangle": 0,
     "node/no-extraneous-require": 0,
     "node/no-unsupported-features": 0,
-    "node/exports-style": [ "error", "module.exports" ]
+    "node/exports-style": [
+      "error",
+      "module.exports"
+    ]
+  },
+  "globals": {
+    "describe": true,
+    "before": true,
+    "after": true,
+    "beforeEach": true,
+    "afterEach": true,
+    "it": false
   }
 }

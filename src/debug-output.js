@@ -23,7 +23,7 @@
  * Created by rogerk on March 17, 2018.
  ******************************************************************************/
 /* eslint-disable no-console */
-if (process.env['mocha-isolation-debug']) {
+if (process.env['mocha_isolation_debug']) {
   let colors = require('colors/safe');
   module.exports = text => {
     if (typeof text !== 'string') {

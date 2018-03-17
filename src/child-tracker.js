@@ -23,6 +23,7 @@
  * Created by rogerk on March 17, 2018.
  ******************************************************************************/
 const ChildRunner = require('./child-runner');
+const debug = require('./debug-output');
 
 class ChildTracker {
   constructor() {
@@ -33,25 +34,34 @@ class ChildTracker {
   closeAll() {
     const self = this;
     return Promise.resolve(self.runner)
+      .catch(() => { })
       .then(old => {
         self.fname = null;
         self.runner = null;
-        if (old) return old.close();
+        if (old && old.close)
+          return old.close().catch(ex => debug(ex));
       })
   }
 
-  changeFile(testFile) {
+  changeFile(testFile, suite) {
     const self = this;
     if (!self.runner || self.fname !== testFile) {
       self.runner = Promise.resolve(self.runner)
         .then(old => {
-          if (old) return old.close();
+          if (old) return old.close().catch(ex => debug(ex))
         })
+        .catch(ex => debug(ex))
         .then(() => {
           self.fname = testFile;
           const runner = new ChildRunner();
-          return runner.addFile(testFile)
-            .then(() => runner);
+          return runner.addFile(testFile, suite)
+            .then(() => runner)
+            .catch(ex => {
+              self.runner = Promise.resolve({ error: ex });
+              return runner.close()
+                .catch(ex => debug(ex))
+                .then(() => self.runner)
+            });
         });
     }
     return Promise.resolve(self.runner);

@@ -28,7 +28,8 @@
     "@types/should": "^13.0.0",
     "eslint": "^4.19.0",
     "should": "^13.2.1",
-    "ts-node": "^5.0.1"
+    "ts-node": "^5.0.1",
+    "typescript": "^2.7.2"
   },
   "dependencies": {
     "commander": "*",
@@ -36,6 +37,10 @@
     "colors": "*"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha test/**/*.test.?s"
+    "test": "npm run eslint && npm run mocha && npm run mocha-isolation",
+    "eslint": "./node_modules/.bin/eslint ./src/",
+    "mocha": "./node_modules/.bin/mocha test/**/*.test.?s",
+    "mocha-isolation": "./node_modules/.bin/mocha --require ./register test/**/*.test.?s",
+    "npm-push": "npm test && npm version patch && npm publish -tag latest --access public && git push"
   }
 }

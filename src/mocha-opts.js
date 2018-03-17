@@ -139,9 +139,16 @@ function parseProcessArgs() {
 
 let _mochaOpts = null;
 
-module.exports = function () {
+module.exports = function (suite) {
   if (!_mochaOpts) {
     _mochaOpts = parseProcessArgs();
   }
-  return JSON.parse(JSON.stringify(_mochaOpts));
+  const result = JSON.parse(JSON.stringify(_mochaOpts));
+  if (suite && suite.timeout) {
+    result.timeout = suite.timeout();
+  }
+  if (suite && suite.slow) {
+    result.slow = suite.slow();
+  }
+  return result;
 }

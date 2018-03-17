@@ -168,10 +168,12 @@ function doAction(msg) {
         }
       });
     })
+    .catch(ex => debug(ex));
 }
 
 process.on('message', (msg) => {
   if (msg && msg.mochaAction) {
+    debug(`Process message: ${JSON.stringify(msg)}`);
     setImmediate(() => doAction(msg));
   }
 });

@@ -1,6 +1,4 @@
 --require ts-node/register
---require ./runner/register
 --require should
---recursive
---slow 5000
---timeout 15000
+--slow 1234
+--timeout 2345

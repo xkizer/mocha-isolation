@@ -35,6 +35,7 @@ const children = new ChildTracker();
 function shutdownChild(done) {
   debug('shutting down...');
   if (!children.runner) {
+    debug('No child to terminate.');
     return done(null);
   }
   children.closeAll()
@@ -76,10 +77,16 @@ function wrapTest(ofn, test, testTitle, testHash) {
       return done(new Error(`Unable to idetify source file ${this.test.type}: ${this.test.fullTitle()}`));
     }
 
-    children.changeFile(test.file)
+    let suite = test;
+    while (suite.parent && !suite.root)
+      suite = suite.parent;
+
+    children.changeFile(test.file, suite)
       .then(runner => {
-        return runner.addFile(test.file)
-          .then(() => runner.testRun(testTitle, testHash));
+        if (runner.error) {
+          return Promise.reject(runner.error);
+        }
+        return runner.testRun(testTitle, testHash);
       })
       .then(() => done())
       .catch(ex => done(ex));
@@ -117,7 +124,7 @@ module.exports = function attachMochaHook() {
     console.error(colors.dim(colors.yellow('[WARN]: Disabled mocha-isolation for debugging.')));
     /* eslint-enable no-console */
   }
-  else if (global['mocha-isolation'] || process.env['mocha-isolation-disable']) {
+  else if (global['mocha-isolation'] || process.env['mocha_isolation_disable']) {
     debug('[INFO]: Disabled mocha-isolation for this process.');
   }
   else {

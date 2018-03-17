@@ -91,7 +91,7 @@ class ChildRunner {
   sendCommand(name, arg) {
     const self = this;
     if (self.exited !== false) {
-      throw new Error('Child has already exited.');
+      return Promise.reject(new Error('Child has already exited.'));
     }
 
     let callId = (self.callseq++).toString();
@@ -119,13 +119,17 @@ class ChildRunner {
     });
   }
 
-  addFile(filename) {
+  addFile(filename, suite) {
     const self = this;
     if (self.fname === filename) {
       return Promise.resolve(self);
     }
-    debug(`${self.fname} !== ${filename}`);
-    return self.sendCommand('addFile', { filename: filename, options: mochaOptions() })
+
+    let options = {};
+    try { options = mochaOptions(suite); }
+    catch (ex) { debug(ex); }
+
+    return self.sendCommand('addFile', { filename: filename, options: options })
       .then(() => {
         self.fname = filename;
         return self;
