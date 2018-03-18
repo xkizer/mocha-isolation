@@ -1,6 +1,6 @@
 {
   "name": "mocha-isolation",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Provides process isolation for each test file running in mocha",
   "main": "index.js",
   "author": "ROK",
